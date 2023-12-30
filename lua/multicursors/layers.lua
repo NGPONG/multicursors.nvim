@@ -200,10 +200,12 @@ L.create_normal_hydra = function(config)
             buffer = 0,
             on_enter = function()
                 vim.b.MultiCursorAnchorStart = true
+                config.on_enter()
             end,
             on_exit = function()
                 if not vim.b.MultiCursorSubLayer then
                     utils.exit()
+                    config.on_exit()
                 end
             end,
             color = 'pink',
@@ -229,7 +231,9 @@ L.create_insert_hydra = function(config)
         mode = 'i',
         config = {
             buffer = 0,
-            on_enter = function() end,
+            on_enter = function()
+                config.on_enter()
+            end,
             on_exit = function()
                 vim.defer_fn(function()
                     insert_mode.exit()
@@ -261,6 +265,7 @@ L.create_extend_hydra = function(config)
             buffer = 0,
             on_enter = function()
                 vim.cmd.redraw()
+                config.on_enter()
             end,
             on_exit = function()
                 vim.b.MultiCursorSubLayer = nil
