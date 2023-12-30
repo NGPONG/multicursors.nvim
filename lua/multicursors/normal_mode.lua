@@ -357,7 +357,7 @@ M.yank = function()
         )
         contents[#contents + 1] = text[1]
     end)
-    vim.fn.setreg('', contents)
+    vim.fn.setreg('*', contents)
 end
 
 --- Yanks the text in the selection line
@@ -373,7 +373,7 @@ M.yank_line = function()
         )
         contents[#contents + 1] = text[1]
     end)
-    vim.fn.setreg('', contents)
+    vim.fn.setreg('*', contents)
 end
 
 --- Yanks the text from start of the selection till end of line
@@ -389,7 +389,7 @@ M.yank_end = function()
         )
         contents[#contents + 1] = text[1]:sub(selection.col + 1)
     end)
-    vim.fn.setreg('', contents)
+    vim.fn.setreg('*', contents)
 end
 
 M.upper_case = function()
