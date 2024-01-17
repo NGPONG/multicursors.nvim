@@ -185,7 +185,7 @@ end
 -- Replaces each selections text with
 -- the corespondent line from the unnamed register
 M.replace = function()
-    local register = vim.fn.getreg ''
+    local register = vim.fn.getreg '*'
     local selection_count = #utils.get_all_selections() + 1
 
     if not register then
