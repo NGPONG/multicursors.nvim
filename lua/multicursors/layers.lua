@@ -146,43 +146,43 @@ L.generate_normal_heads = function(config)
     }
 
     heads[#heads + 1] = {
-        config.mode_keys.insert,
+        config.mode_keys.insert[1],
         function()
             enter_insert(function()
                 insert_mode.insert(config)
             end)
         end,
-        { desc = 'insert mode', exit = true, nowait = config.nowait },
+        { desc = config.mode_keys.insert.desc or nil, exit = true, nowait = config.nowait },
     }
 
     heads[#heads + 1] = {
-        config.mode_keys.change,
+        config.mode_keys.change[1],
         function()
             enter_insert(function()
                 normal_mode.change(config)
             end)
         end,
-        { desc = 'change mode', exit = true, nowait = config.nowait },
+        { desc = config.mode_keys.change.desc or nil, exit = true, nowait = config.nowait },
     }
 
     heads[#heads + 1] = {
-        config.mode_keys.append,
+        config.mode_keys.append[1],
         function()
             enter_insert(function()
                 insert_mode.append(config)
             end)
         end,
-        { desc = 'append mode', exit = true, nowait = config.nowait },
+        { desc = config.mode_keys.append.desc or nil, exit = true, nowait = config.nowait },
     }
 
     heads[#heads + 1] = {
-        config.mode_keys.extend,
+        config.mode_keys.extend[1],
         function()
             vim.b.MultiCursorSubLayer = true
             L.create_extend_hydra(config)
             L.extend_hydra:activate()
         end,
-        { desc = 'extend mode', exit = true, nowait = config.nowait },
+        { desc = config.mode_keys.extend.desc or nil, exit = true, nowait = config.nowait },
     }
 
     return heads
@@ -200,10 +200,12 @@ L.create_normal_hydra = function(config)
             buffer = 0,
             on_enter = function()
                 vim.b.MultiCursorAnchorStart = true
+                config.on_enter()
             end,
             on_exit = function()
                 if not vim.b.MultiCursorSubLayer then
                     utils.exit()
+                    config.on_exit()
                 end
             end,
             color = 'pink',
@@ -229,7 +231,9 @@ L.create_insert_hydra = function(config)
         mode = 'i',
         config = {
             buffer = 0,
-            on_enter = function() end,
+            on_enter = function()
+                config.on_enter()
+            end,
             on_exit = function()
                 vim.defer_fn(function()
                     insert_mode.exit()
@@ -261,6 +265,7 @@ L.create_extend_hydra = function(config)
             buffer = 0,
             on_enter = function()
                 vim.cmd.redraw()
+                config.on_enter()
             end,
             on_exit = function()
                 vim.b.MultiCursorSubLayer = nil
