@@ -216,6 +216,9 @@ M.replace = function()
                 selection.end_col,
                 content
             )
+
+            -- 当replace后的文本长度会短于原始的长度了，则会出现报错，故这里重置 column
+            selection.end_col = selection.col + 1
         end)
         return
     end
@@ -231,6 +234,9 @@ M.replace = function()
             { content[index] }
         )
         index = index + 1
+        
+        -- 当replace后的文本长度会短于原始的长度了，则会出现报错，故这里重置 column
+        selection.end_col = selection.col + 1
     end)
 end
 
