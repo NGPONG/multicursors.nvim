@@ -42,7 +42,7 @@ Install with your preferred package manager:
         "smoka7/multicursors.nvim",
         event = "VeryLazy",
         dependencies = {
-            'smoka7/hydra.nvim',
+            'nvimtools/hydra.nvim',
         },
         opts = {},
         cmd = { 'MCstart', 'MCvisual', 'MCclear', 'MCpattern', 'MCvisualPattern', 'MCunderCursor' },
@@ -80,7 +80,9 @@ Click me ~
         extend_keys = extend_keys,
         -- see :help hydra-config.hint
         hint_config = {
-            border = 'none',
+            float_opts = {
+                border = 'none',
+            },
             position = 'bottom',
         },
         -- accepted values:
@@ -413,7 +415,9 @@ similar to helix.
 >lua
      require('multicursors').setup {
         hint_config = {
-            border = 'rounded',
+            float_opts = {
+                border = 'rounded',
+            },
             position = 'bottom-right',
         },
         generate_hints = {
